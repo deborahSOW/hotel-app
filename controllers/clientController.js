@@ -1,6 +1,5 @@
 const pool = require('../config/db');
 
-// ➤ Créer un client
 exports.createClient = async (req, res) => {
   const { nom, email, telephone } = req.body;
   try {
@@ -15,7 +14,6 @@ exports.createClient = async (req, res) => {
   }
 };
 
-// ➤ Lister tous les clients
 exports.getAllClients = async (req, res) => {
   try {
     const result = await pool.query('SELECT * FROM client ORDER BY id_client ASC');
@@ -26,11 +24,11 @@ exports.getAllClients = async (req, res) => {
   }
 };
 
-// ➤ Supprimer un client
 exports.deleteClient = async (req, res) => {
   const id = req.params.id;
   try {
-    await pool.query('DELETE FROM client WHERE id_client = $1', [id]);
+    const result = await pool.query('DELETE FROM client WHERE id_client = $1', [id]);
+    if (result.rowCount === 0) return res.status(404).json({ message: 'Client non trouvé' });
     res.status(200).json({ message: 'Client supprimé' });
   } catch (err) {
     console.error('Erreur suppression client :', err);
@@ -38,7 +36,6 @@ exports.deleteClient = async (req, res) => {
   }
 };
 
-// ➤ Mettre à jour un client
 exports.updateClient = async (req, res) => {
   const id = req.params.id;
   const { nom, email, telephone } = req.body;
@@ -47,6 +44,7 @@ exports.updateClient = async (req, res) => {
       'UPDATE client SET nom=$1, email=$2, telephone=$3 WHERE id_client=$4 RETURNING *',
       [nom, email, telephone, id]
     );
+    if (result.rowCount === 0) return res.status(404).json({ message: 'Client non trouvé' });
     res.status(200).json(result.rows[0]);
   } catch (err) {
     console.error('Erreur mise à jour client :', err);
