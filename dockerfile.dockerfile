@@ -1,19 +1,20 @@
+# Étape 1 : image de base
 FROM node:18
 
-# Créer le dossier de travail
+# Étape 2 : dossier de travail dans le conteneur
 WORKDIR /app
 
-# Copier les fichiers de dépendances
+# Étape 3 : copie des dépendances
 COPY package*.json ./
 
-# Installer les dépendances
+# Étape 4 : installation des dépendances
 RUN npm install
 
-# Copier le reste du projet
+# Étape 5 : copie du reste du code
 COPY . .
 
-# Exposer le port de l'app
+# Étape 6 : expose le port utilisé par ton serveur
 EXPOSE 3000
 
-# Lancer le serveur Node
+# Étape 7 : commande de lancement
 CMD [ "node", "index.js" ]

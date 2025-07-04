@@ -1,7 +1,26 @@
 {
   "dependencies": {
+    "body-parser": "^2.2.0",
     "dotenv": "^16.6.1",
     "express": "^5.1.0",
     "pg": "^8.16.3"
-  }
+  },
+  "name": "hotel-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ton-nom-utilisateur/hotel-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ton-nom-utilisateur/hotel-app/issues"
+  },
+  "homepage": "https://github.com/ton-nom-utilisateur/hotel-app#readme",
+  "description": ""
 }
