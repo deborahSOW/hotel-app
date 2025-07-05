@@ -6,21 +6,29 @@ on:
       - main
 
 jobs:
-  deploy:
+  build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 📥 Récupérer le code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: ⚙️ Installer Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
-    - name: 📦 Installer les dépendances
-      run: npm install
+      - name: Install dependencies
+        run: npm install
 
-    - name: 🚀 Déployer sur Render
-      run: |
-        curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+      - name: Run tests (optional)
+        run: npm test
+
+      - name: Build Docker image
+        run: docker build -t hotel-app .
+
+      - name: Deploy to Render
+        uses: render-examples/deploy-to-render@v1
+        with:
+          apiKey: ${{ secrets.RENDER_API_KEY }}
+          serviceId: ${{ secrets.RENDER_SERVICE_ID }}
